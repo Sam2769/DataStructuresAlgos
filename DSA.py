@@ -6,6 +6,79 @@ class btNode:
         self.left = None
         self.right = None
 
+class Queue:
+
+    def __init__(self):
+
+        self.front = -1
+        self.arr = []
+        self.__size = 0
+
+    def Size(self):
+
+        return self.__size
+
+    def enqueue(self,item):
+
+        if self.front == -1:
+            self.arr.append(item)
+            self.front += 1
+            self.__size += 1
+            return
+
+        self.arr.append(item)
+
+
+    def isEmpty(self):
+
+        return self.front == -1
+
+    def peek(self):
+
+        return self.arr[self.front]
+
+    def dequeue(self):
+
+        if self.front == -1:
+            print("Queue Underflow")
+            return -1
+
+        if self.front == len(self.arr):
+            print("Queue is Empty")
+            return -1
+
+        element = self.arr[self.front]
+        self.front += 1
+        self.__size -= 1
+
+        return element
+
+
+    def printQueue(self):
+
+        if self.front == -1 or self.front == len(self.arr):
+            print(-1)
+
+        for f in range(self.front, len(self.arr)):
+
+            print(self.arr[f], end = " ")
+
+def takeInput(self):
+
+        r = int(input("Enter root value\n"))
+        root = btNode(r)
+
+        if root.data == -1:
+            return None
+
+        leftTree = takeInput()
+        rightTree = takeInput()
+
+        root.left = leftTree
+        root.right = rightTree
+
+
+        return root
 
 class BinaryTree:
 
@@ -13,56 +86,39 @@ class BinaryTree:
 
         self.root = root
 
-
-    def preOrderTraversal(self,root):
-
-        if root == None:
-            return root
-
-        print(root.data, end = " ")
-
-        self.preOrderTraversal(root.left)
-        self.preOrderTraversal(root.right)
-
-
-    def inOrderTraversal(self,root):
+    def levelOrderTraversal(self,root):
 
         if root == None:
-            return root
+            return []
 
-        self.inOrderTraversal(root.left)
-        print(root.data)
-        self.inOrderTraversal(root.right)
-
-    def postOrderTraversal(self,root):
-
-        if root == None:
-            return root
-
-        self.postOrderTraversal(root.left)
-        self.postOrderTraversal(root.right)
-
-        print(root.data)
+        main = []
+        q = Queue()
 
 
+        while not q.isEmpty():
 
-node = btNode(8)
-node2  = btNode(7)
-node3 = btNode(6)
-node4 = btNode(5)
-node5 = btNode(4)
-node6 = btNode(3)
-node7 = btNode(2)
+            vList = []
 
-node.left = node2
-node.right = node3
+            size = q.Size()
+            for f in range(size):
+                vList.append(q.peek())
+                q.dequeue()
 
-node2.left = node4
-node2.right = node5
+            for i in range(size):
 
-node3.left = node6
-node3.right = node7
+                node = vList[i]
+                if node.left is not None:
+                    q.enqueue(node.left)
 
-Tree = BinaryTree(node)
+                if node.right is not None:
+                    q.enqueue(node.right)
 
-Tree.postOrderTraversal(node)
+                main.append(vList)
+
+
+        return main
+
+
+root = takeInput()
+bt = BinaryTree(root)
+
