@@ -63,7 +63,7 @@ class Queue:
 
             print(self.arr[f], end = " ")
 
-def takeInput(self):
+def takeInput():
 
         r = int(input("Enter root value\n"))
         root = btNode(r)
